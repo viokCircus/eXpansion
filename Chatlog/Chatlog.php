@@ -1,6 +1,7 @@
 <?php
 
 namespace ManiaLivePlugins\eXpansion\Chatlog;
+use ManiaLivePlugins\Standard\AutoQueue\Config;
 
 /**
  * Get all chat and logs it
@@ -9,11 +10,16 @@ namespace ManiaLivePlugins\eXpansion\Chatlog;
  */
 class Chatlog extends \ManiaLivePlugins\eXpansion\Core\types\ExpPlugin {
 
-    private $log = array();
+    /**
+     * @var \SplDoublyLinkedList
+     */
+    private $log;
 
     public function exp_onLoad() {
 	$this->enableDedicatedEvents(\ManiaLive\DedicatedApi\Callback\Event::ON_PLAYER_CHAT);
 	$this->registerChatCommand("chatlog", "showLog", 0, true);
+	$this->log = new \SplDoublyLinkedList();
+	$this->log->setIteratorMode(\SplDoublyLinkedList::IT_MODE_LIFO);
     }
 
     /**
@@ -31,8 +37,10 @@ class Chatlog extends \ManiaLivePlugins\eXpansion\Core\types\ExpPlugin {
 	if($player == null)
 		return;
 	$chatMessage = new Structures\ChatMessage(time(), $login, $player->nickName, $text);
-	array_unshift($this->log, $chatMessage);
-	$this->log = array_slice($this->log, 0, Config::getInstance()->historyLenght, True);
+	$this->log->push($chatMessage);
+
+	if($this->log->count() > Config::getInstance()->historyLenght)
+        $this->log->shift();
     }
 
     /**
@@ -45,7 +53,7 @@ class Chatlog extends \ManiaLivePlugins\eXpansion\Core\types\ExpPlugin {
 	$window->setTitle(__('Chatlog', $login));
 	
 	$window->setSize(140, 100);
-	$window->populateList(array_reverse($this->log));
+	$window->populateList($this->log);
 	$window->centerOnScreen();
 	$window->show();
     }

@@ -36,7 +36,7 @@ class ChatlogWindow extends \ManiaLivePlugins\eXpansion\Gui\Windows\Window {
 
     /**
      * 
-     * @param \ManiaLivePlugins\eXpansion\Chatlog\Structures\ChatMessage[] $messages
+     * @param \SplDoublyLinkedList $messages
      */
     function populateList($messages) {
         foreach ($this->items as $item)
@@ -47,8 +47,8 @@ class ChatlogWindow extends \ManiaLivePlugins\eXpansion\Gui\Windows\Window {
         $login = $this->getRecipient();
         $x = 0;
 
-        foreach ($messages as $message) {
-            $this->items[$x] = new \ManiaLivePlugins\eXpansion\Chatlog\Gui\Controls\Message($x, $message, $this->widths, $this->sizeX);
+        for ($messages->rewind(); $messages->valid(); $messages->next()) {
+            $this->items[$x] = new \ManiaLivePlugins\eXpansion\Chatlog\Gui\Controls\Message($x, $messages->current(), $this->widths, $this->sizeX);
             $this->pager->addItem($this->items[$x]);
             $x++;
         }

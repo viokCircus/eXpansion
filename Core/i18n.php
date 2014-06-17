@@ -18,7 +18,7 @@ class i18n extends \ManiaLib\Utils\Singleton {
     /**
      * Translated messages by language
      *
-     * @var array(String => Message)
+     * @var Message[String]
      */
     private $messages = array();
 
@@ -162,7 +162,6 @@ class i18n extends \ManiaLib\Utils\Singleton {
      * @param null $language
      *
      * @return mixed
-     * @todo check if this is actually used :S I don't understand what it does.
      */
     private function translate($string, $language = null) {
 

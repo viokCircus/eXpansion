@@ -5,7 +5,7 @@ namespace ManiaLivePlugins\eXpansion\AdminGroups;
 use ManiaLive\DedicatedApi\Callback\Event as ServerEvent;
 use ManiaLive\Event\Dispatcher;
 use ManiaLive\Features\ChatCommand\Interpreter;
-
+use ManiaLivePlugins\eXpansion\Core\ColorCodes;
 /**
  *
  * @author oliver
@@ -122,17 +122,17 @@ class AdminGroups extends \ManiaLivePlugins\eXpansion\Core\types\ExpPlugin {
     public function exp_onLoad() {
 
 	//Loading all Messages;
-	$this->msg_needBeAdmin = exp_getMessage('#admin_error#You need to be an Admin to use that command');
-	$this->msg_cmdDontEx = exp_getMessage('#admin_error#That Admin command doesen\'t exist. Use #variable#/admin help #admin_error#to see all commands');
-	$this->msg_neeMorPerm = exp_getMessage('#admin_error#You don\'t have the permission to use that admin command');
-	$this->msg_aInGroup = exp_getMessage('#admin_error#Player #variable#%1$s #admin_error#is already in a group #admin_error#%2$s. #admin_error#Remove him first');
-	$this->msg_paddSuc = exp_getMessage('#admin_action#Player #variable# %1$s #admin_action#has been added to admin group #variable#%2$s');
-	$this->msg_paddFai = exp_getMessage('#admin_action#Failed to add player #variable# %1$s #admin_action# to admin group #variable#%2$s');
-	$this->msg_premoveSelf = exp_getMessage('#admin_error#Your are #variable#%1$s #admin_error#You can\'t remove yourself from a group');
-	$this->msg_pRemoveSuc = exp_getMessage('#admin_action#Player : #variable#%1$s #admin_action#Has been removed from admin group #variable#%2$s');
-	$this->msg_pRemoveFa = exp_getMessage('#admin_error#Player #variable#%1$s #admin_action#isn\'t in the group');
-	$this->msg_masterMasterE = exp_getMessage('#admin_error#Master Admins has all rights. You can\'t change that!');
-	$this->msg_removeMlAdmin = exp_getMessage('#admin_error#Master admin #variable#%1$s has been defined in config.ini and not throught eXpansion. Can\'t remove!');
+	$this->msg_needBeAdmin = exp_getMessage(ColorCodes::adminError.'You need to be an Admin to use that command');
+	$this->msg_cmdDontEx = exp_getMessage(ColorCodes::adminError.'That Admin command doesen\'t exist. Use #variable#/admin help '.ColorCodes::adminError.'to see all commands');
+	$this->msg_neeMorPerm = exp_getMessage(ColorCodes::adminError.'You don\'t have the permission to use that admin command');
+	$this->msg_aInGroup = exp_getMessage(ColorCodes::adminError.'Player #variable#%1$s #admin_error#is already in a group #admin_error#%2$s. #admin_error#Remove him first');
+	$this->msg_paddSuc = exp_getMessage(ColorCodes::adminAction.'Player #variable# %1$s #admin_action#has been added to admin group #variable#%2$s');
+	$this->msg_paddFai = exp_getMessage(ColorCodes::adminAction.'Failed to add player #variable# %1$s #admin_action# to admin group #variable#%2$s');
+	$this->msg_premoveSelf = exp_getMessage(ColorCodes::adminError.'Your are #variable#%1$s #admin_error#You can\'t remove yourself from a group');
+	$this->msg_pRemoveSuc = exp_getMessage(ColorCodes::adminAction.'Player : #variable#%1$s #admin_action#Has been removed from admin group #variable#%2$s');
+	$this->msg_pRemoveFa = exp_getMessage(ColorCodes::adminError.'Player #variable#%1$s #admin_action#isn\'t in the group');
+	$this->msg_masterMasterE = exp_getMessage(ColorCodes::adminError.'Master Admins has all rights. You can\'t change that!');
+	$this->msg_removeMlAdmin = exp_getMessage(ColorCodes::adminError.'Master admin #variable#%1$s has been defined in config.ini and not throught eXpansion. Can\'t remove!');
 	self::$txt_msg_cmdDontEx = $this->msg_cmdDontEx;
 	self::$txt_noPermissionMsg = $this->msg_neeMorPerm;
 	self::$txt_groupsTitle = exp_getMessage('Admin Groups');
@@ -713,7 +713,7 @@ class AdminGroups extends \ManiaLivePlugins\eXpansion\Core\types\ExpPlugin {
 	    if ($this->hasPermission($login, $commands->getPermission())) {
 		$error = $commands->cmd($login, $chats);
 		if ($error != '')
-		    $this->exp_chatSendServerMessage(__('#admin_error#' . $error, $login), $login);
+		    $this->exp_chatSendServerMessage(__(ColorCodes::adminError.'' . $error, $login), $login);
 	    }else {
 		$this->exp_chatSendServerMessage($this->msg_neeMorPerm, $login);
 	    }

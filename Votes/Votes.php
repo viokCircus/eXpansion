@@ -142,7 +142,7 @@ class Votes extends \ManiaLivePlugins\eXpansion\Core\types\ExpPlugin
             if ($managedVotes['RestartMap']->managed == false) return;
 
             $config = Config::getInstance();  
-            if ($config->restartLimit != 0 && $config->restartLimit < $this->resCount) {                              
+            if ($config->restartLimit != 0 && $config->restartLimit <= $this->resCount) {
                 $this->exp_chatSendServerMessage(exp_getMessage("#error#Map limit for voting restart reached."), $login, array($this->config->restartLimit));
                 return;
             }

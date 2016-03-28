@@ -22,8 +22,7 @@ class Playerlist extends \ManiaLivePlugins\eXpansion\Gui\Windows\Window
     private $storage;
     private $items = array();
     private $frame;
-    protected $title_status, $title_login, $title_nickname;    
-
+    protected $title_status, $title_login, $title_nickname;
     public static $widths = array(1, 8, 6, 6);
 
     protected function onConstruct()
@@ -34,10 +33,10 @@ class Playerlist extends \ManiaLivePlugins\eXpansion\Gui\Windows\Window
         $this->connection = \Maniaplanet\DedicatedServer\Connection::factory($config->host, $config->port);
         $this->storage    = \ManiaLive\Data\Storage::getInstance();
         $this->setScriptEvents();
-        $this->pager  = new \ManiaLivePlugins\eXpansion\Gui\Elements\OptimizedPager();
-        $this->mainFrame->addComponent($this->pager);        
+        $this->pager      = new \ManiaLivePlugins\eXpansion\Gui\Elements\OptimizedPager();
+        $this->mainFrame->addComponent($this->pager);
         $this->setName("Players on server");
-        
+
         $line = new \ManiaLive\Gui\Controls\Frame(18, 0);
         $line->setLayout(new \ManiaLib\Gui\Layouts\Line());
         if (AdminGroups::hasPermission($login, Permission::player_ignore)) {
@@ -180,12 +179,12 @@ class Playerlist extends \ManiaLivePlugins\eXpansion\Gui\Windows\Window
     {
         parent::onResize($oldX, $oldY);
         $this->pager->setSize($this->sizeX, $this->sizeY - 10);
-        $this->pager->setPosition(0,-6);
+        $this->pager->setPosition(0, -6);
     }
 
     function onDraw()
     {
-	$this->populateList();
+        $this->populateList();
         parent::onDraw();
     }
 
@@ -223,14 +222,14 @@ class Playerlist extends \ManiaLivePlugins\eXpansion\Gui\Windows\Window
             $guestAction     = $this->createAction(array($this, 'guestlistPlayer'), $player->login);
             //$toggleTeam      = $this->createAction(array($this, 'toggleTeam'), $player->login);
 
-            $this->pager->addSimpleItems(array(Gui::fixString($player->nickName) => -1,
+            $this->pager->addSimpleItems(array(Gui::fixString($player->nickName)." " => -1,
                 Gui::fixString($player->login) => -1,
                 "ignore" => $ignoreAction,
                 "kick" => $kickAction,
                 "ban" => $banAction,
                 "blacklist" => $blacklistAction,
                 "force" => $forceAction,
-                "guest" => $guestAction                
+                "guest" => $guestAction
             ));
         }
         foreach ($this->storage->spectators as $player) {
@@ -240,9 +239,9 @@ class Playerlist extends \ManiaLivePlugins\eXpansion\Gui\Windows\Window
             $banAction       = $this->createAction(array($this, 'banPlayer'), $player->login);
             $blacklistAction = $this->createAction(array($this, 'blacklistPlayer'), $player->login);
             $forceAction     = $this->createAction(array($this, 'toggleSpec'), $player->login);
-            $guestAction     = $this->createAction(array($this, 'guestlistPlayer'), $player->login);         
+            $guestAction     = $this->createAction(array($this, 'guestlistPlayer'), $player->login);
 
-            $this->pager->addSimpleItems(array(Gui::fixString($player->nickName) => -1,
+            $this->pager->addSimpleItems(array(Gui::fixString($player->nickName)." " => -1,
                 Gui::fixString($player->login) => -1,
                 "ignore" => $ignoreAction,
                 "kick" => $kickAction,
